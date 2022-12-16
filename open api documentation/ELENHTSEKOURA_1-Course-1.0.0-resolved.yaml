@@ -1,0 +1,131 @@
+---
+openapi: 3.0.0
+info:
+  title: Simple Inventory API
+  description: This is a simple API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/ELENHTSEKOURA_1/Course/1.0.0
+  description: SwaggerHub API Auto Mocking
+tags:
+- name: courses
+  description: Secured Admin-only calls
+paths:
+  /courses:
+    get:
+      tags:
+      - courses
+      summary: courses inventory
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      operationId: index
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InventoryItem'
+        "400":
+          description: bad input parameter
+    post:
+      tags:
+      - courses
+      summary: adds a course item
+      description: Adds an item to the system
+      operationId: new
+      requestBody:
+        description: Inventory item to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InventoryItem'
+      responses:
+        "201":
+          description: item created
+        "400":
+          description: invalid input
+  /courses/{id}:
+    get:
+      tags:
+        - courses
+      summary: courses inventory
+      description: By passing in the appropriate options, you can get specific InventoryItem in the system
+      operationId: show
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InventoryItem'
+        "404":
+          description: id not found
+    put:
+      tags:
+        - courses
+      summary: courses inventory
+      description: By passing in the appropriate options, you can edit specific InventoryItem in the system
+      operationId: edit
+      responses:
+        "202":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InventoryItem'
+        "400":
+          description: bad input parameter
+        "404":
+          description: id not found
+    delete:
+      tags:
+        - courses
+      summary: courses inventory
+      description: |
+        By passing in the appropriate options, you can delete specific InventoryItem in the system
+      operationId: delete
+      responses:
+        "204":
+          description: search results matching criteria
+        "404":
+          description: id not found
+#        "401":
+#          description: Unauthorized
+
+components:
+  schemas:
+    InventoryItem:
+      required:
+      - id
+      - title
+      - description
+      - status
+      - is_premium
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: boolean
+          default: Pending
+        created_at:
+          type: string
+          format: date-time
+          example: 2022-12-12T11:51:39+01:00
